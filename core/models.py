@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils import timezone
+
 
 # Create your models here.
 class Produto(models.Model):
@@ -21,6 +21,7 @@ class TabelaPreco(models.Model):
 
 class Pedido(models.Model):
     nr_pedido       = models.BigAutoField(primary_key=True)
+    data_pedido     = models.DateField(null=False, blank=False)
 
 class PedidoItem(models.Model):
     pedido          = models.ForeignKey(Pedido,related_name="pedidos", on_delete=models.CASCADE)

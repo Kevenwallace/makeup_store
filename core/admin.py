@@ -1,22 +1,26 @@
 from django.contrib import admin
 from django import forms
 from core.models import Pedido, PedidoItem, Produto, TabelaPreco
+from datetime import datetime
 
 @admin.action(description="criar pedidos")
 def criar_pedido(modeladmin, request, queryset):
     pedido_instance = Pedido.objects.create()
 
     print(pedido_instance)
-    instance = PedidoItem()
+    instance = PedidoItem(
+        data_pedido=datetime.now()
+    )
+    instance.save()
     
-    bulk_creat = []
+    bulk_create = []
     for produtos in queryset:
         instance = PedidoItem(
         pedido=pedido_instance,
         produto=produtos)
-        bulk_creat += [instance]
+        bulk_create += [instance]
     
-    print(bulk_creat)
+    Pedido.objects.bulk_create(bulk_create)
     
     
 
